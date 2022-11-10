@@ -7,7 +7,7 @@ addpath('ximu_matlab_library');
 % -------------------------------------------------------------------------
 % Select dataset (comment in/out)
 
-filePath = 'Datasets/straightLine';
+filePath = 'Datasets/spiralStairs';
 startTime = 6;
 stopTime = 26;
 
