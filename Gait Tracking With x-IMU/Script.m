@@ -68,7 +68,7 @@ filtCutOff = 5;
 acc_magFilt = filtfilt(b, a, acc_magFilt);
 
 % Threshold detection
-stationary = acc_magFilt < 0.04;
+stationary = acc_magFilt < 0.06;
 
 % -------------------------------------------------------------------------
 % Plot data raw sensor data and stationary periods
