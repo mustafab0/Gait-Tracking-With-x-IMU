@@ -1,4 +1,4 @@
-% clear;
+clear;
 close all;
 clc;
 addpath('Quaternions');
@@ -7,9 +7,9 @@ addpath('ximu_matlab_library');
 % -------------------------------------------------------------------------
 % Select dataset (comment in/out)
 
-% filePath = 'Datasets/straightline';
-% startTime = 6;
-% stopTime = 26;
+filePath = 'Datasets/spiralStairs';
+startTime = 6;
+stopTime = 26;
 
 % filePath = 'Datasets/stairsAndCorridor';
 % startTime = 5;
@@ -21,17 +21,17 @@ addpath('ximu_matlab_library');
 
 % -------------------------------------------------------------------------
 % Import data
-samplePeriod = 5/100;
-% samplePeriod = 1/256;
-% xIMUdata = xIMUdataClass(filePath, 'InertialMagneticSampleRate', 1/samplePeriod);
-% time = xIMUdata.CalInertialAndMagneticData.Time;
-% gyrX = xIMUdata.CalInertialAndMagneticData.Gyroscope.X;
-% gyrY = xIMUdata.CalInertialAndMagneticData.Gyroscope.Y;
-% gyrZ = xIMUdata.CalInertialAndMagneticData.Gyroscope.Z;
-% accX = xIMUdata.CalInertialAndMagneticData.Accelerometer.X;
-% accY = xIMUdata.CalInertialAndMagneticData.Accelerometer.Y;
-% accZ = xIMUdata.CalInertialAndMagneticData.Accelerometer.Z;
-% clear('xIMUdata');
+
+samplePeriod = 1/256;
+xIMUdata = xIMUdataClass(filePath, 'InertialMagneticSampleRate', 1/samplePeriod);
+time = xIMUdata.CalInertialAndMagneticData.Time;
+gyrX = xIMUdata.CalInertialAndMagneticData.Gyroscope.X;
+gyrY = xIMUdata.CalInertialAndMagneticData.Gyroscope.Y;
+gyrZ = xIMUdata.CalInertialAndMagneticData.Gyroscope.Z;
+accX = xIMUdata.CalInertialAndMagneticData.Accelerometer.X;
+accY = xIMUdata.CalInertialAndMagneticData.Accelerometer.Y;
+accZ = xIMUdata.CalInertialAndMagneticData.Accelerometer.Z;
+clear('xIMUdata');
 
 % -------------------------------------------------------------------------
 % Manually frame data
@@ -39,14 +39,14 @@ samplePeriod = 5/100;
 % startTime = 0;
 % stopTime = 10;
 
-% indexSel = find(sign(time-startTime)+1, 1) : find(sign(time-stopTime)+1, 1);
-% time = time(indexSel);
-% gyrX = gyrX(indexSel, :);
-% gyrY = gyrY(indexSel, :);
-% gyrZ = gyrZ(indexSel, :);
-% accX = accX(indexSel, :);
-% accY = accY(indexSel, :);
-% accZ = accZ(indexSel, :);
+indexSel = find(sign(time-startTime)+1, 1) : find(sign(time-stopTime)+1, 1);
+time = time(indexSel);
+gyrX = gyrX(indexSel, :);
+gyrY = gyrY(indexSel, :);
+gyrZ = gyrZ(indexSel, :);
+accX = accX(indexSel, :);
+accY = accY(indexSel, :);
+accZ = accZ(indexSel, :);
 
 % -------------------------------------------------------------------------
 % Detect stationary periods
@@ -68,7 +68,7 @@ filtCutOff = 5;
 acc_magFilt = filtfilt(b, a, acc_magFilt);
 
 % Threshold detection
-stationary = acc_magFilt < 0.04;
+stationary = acc_magFilt < 0.05;
 
 % -------------------------------------------------------------------------
 % Plot data raw sensor data and stationary periods
@@ -102,7 +102,7 @@ linkaxes(ax,'x');
 % Compute orientation
 
 quat = zeros(length(time), 4);
-AHRSalgorithm = AHRS('SamplePeriod', samplePeriod, 'Kp', 1, 'KpInit', 1);
+AHRSalgorithm = AHRS('SamplePeriod', 1/256, 'Kp', 1, 'KpInit', 1);
 
 % Initial convergence
 initPeriod = 2;
