@@ -1,5 +1,5 @@
 clear;
-data = readtable('D:\mustafa\Masters-NYU\ms_project\test_data\straightline_perpendicular_wall.txt');
+data = readtable('D:\mustafa\Masters-NYU\ms_project\test_data\straight_kitchen1.txt');
 
 gyrX = table2array(data(:,1));
 gyrY = table2array(data(:,2));
